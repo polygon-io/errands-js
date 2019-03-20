@@ -1,2 +1,2 @@
-# errands-nodejs
-NodeJS Client for Errands 
+# Errands JS
+JS Client for Errands Server
