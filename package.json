@@ -1,0 +1,33 @@
+{
+  "name": "errands-js",
+  "version": "1.0.0",
+  "description": "NodeJS Client for Errands Server",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Polygon-io/errands-nodejs.git"
+  },
+  "keywords": [
+    "errands",
+    "polygon",
+    "queue"
+  ],
+  "author": "Polygon.io",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Polygon-io/errands-nodejs/issues"
+  },
+  "homepage": "https://github.com/Polygon-io/errands-nodejs#readme",
+  "dependencies": {
+    "async": "^2.6.2",
+    "bluebird": "^3.5.3",
+    "eventemitter3": "^3.1.0",
+    "lodash": "^4.17.11",
+    "moment": "^2.24.0",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.4"
+  }
+}
