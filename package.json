@@ -1,5 +1,5 @@
 {
-  "name": "errands-js",
+  "name": "@polygonio/errands",
   "version": "1.0.0",
   "description": "NodeJS Client for Errands Server",
   "main": "src/index.js",
