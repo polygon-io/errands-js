@@ -41,7 +41,7 @@ module.exports = class Errands extends EventEmitter {
 				if( err.status === 401 || err.status === 403 ){
 					console.log('Event Source: not authorized')
 				}
-				console.log('Event Source: Unknown event source error:', err)
+				debug('Event Source: Unknown event source error:', err)
 			}
 		}
 		this.es.addEventListener('message', ( e ) => {
