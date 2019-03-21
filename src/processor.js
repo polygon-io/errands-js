@@ -23,9 +23,9 @@ module.exports = class Processor extends EventEmitter {
 		// Create this processors queue:
 		this.queue = async.queue(( task, callback ) => {
 			let obj = new Errand( task, this )
-			this.params.func( obj ).then(() => {
+			this.params.func( obj ).then(( results ) => {
 				this.params.parent.emit('processor-complete', { errand: task })
-				return obj.complete().then( callback )
+				return obj.complete( results ).then( callback )
 			}).catch(( err ) => {
 				this.params.parent.emit('processor-fail', { errand: task, error: err })
 				return obj.fail( err.toString() ).then( callback )

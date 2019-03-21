@@ -23,7 +23,13 @@ myErrands.process('extract', ( errand ) => {
 		}).then(() => {
 			return Promise.delay( 10000 ).then(() => {
 				// Done, which will mark the errand as completed:
-				resolve()
+				resolve({
+					finished: true,
+					success: true,
+					someotherstuff: {
+						yes: false
+					}
+				})
 			})
 		})
 

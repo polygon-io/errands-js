@@ -12,9 +12,9 @@ module.exports = class Errand extends EventEmitter {
 		this.parent = parent
 		debug('Errand Created', this.attrs.id)
 	}
-	complete(){
+	complete( results ){
 		debug('Completed', this.attrs.id)
-		return this.parent.params.parent.complete( this.attrs.id )
+		return this.parent.params.parent.complete( this.attrs.id, results )
 	}
 	fail( message ){
 		debug('Fail', this.attrs.id)

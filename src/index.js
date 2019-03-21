@@ -116,6 +116,8 @@ module.exports = class Errands extends EventEmitter {
 			method: 'POST',
 			json: true,
 			body: obj,
+		}).then(( res ) => {
+			return lodash.get( res, 'results', null )
 		})
 	}
 
@@ -131,12 +133,15 @@ module.exports = class Errands extends EventEmitter {
 	}
 
 
-	complete( id ){
+	complete( id, results ){
 		debug("Request: Complete:", id)
 		if( lodash.isEmpty( id ) ) return Promise.reject(new Error("ID must be set"))
 		return request({
 			url: `${this.serverURL}/v1/errand/${id}/completed`,
 			method: 'PUT',
+			body: {
+				results: results,
+			},
 			json: true,
 		})
 	}
