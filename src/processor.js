@@ -4,7 +4,7 @@ const lodash 			= require('lodash')
 const Promise 			= require('bluebird')
 const async 			= require('async')
 const Errand 			= require('./errand.js')
-
+const debug 			= require('debug')('errands:processor')
 
 
 module.exports = class Processor extends EventEmitter {
@@ -19,7 +19,7 @@ module.exports = class Processor extends EventEmitter {
 
 
 	init(){
-		console.log(`Processing: ${this.params.type}`)
+		debug(`Processing: ${this.params.type}`)
 		// Create this processors queue:
 		this.queue = async.queue(( task, callback ) => {
 			let obj = new Errand( task, this )
@@ -39,6 +39,7 @@ module.exports = class Processor extends EventEmitter {
 	pollServer(){
 		const running = this.queue.running()
 		if( running < this.params.limit ){
+			debug(`Polling Server for Errand to Process`)
 			return this.params.parent.requestErrand( this.params.type ).then(( errand ) => {
 				if( errand ) this.queue.push( errand )
 			}).catch(( err ) => {
@@ -63,19 +64,36 @@ module.exports = class Processor extends EventEmitter {
 
 
 	kill(){
+		debug('Killing Processor:', this.params.type)
 		this.active = false
 		this.queue.kill()
 	}
 
 
 	// Extend the Async Queue methods:
-	running(){ return this.queue.running() }
-	pause(){ return this.queue.pause() }
-	paused(){ return this.queue.paused() }
-	resume(){ return this.queue.resume() }
-	idle(){ return this.queue.idle() }
-	started(){ return this.queue.started() }
-	length(){ return this.queue.length() }
+	running(){ 
+		return this.queue.running()
+	}
+	pause(){ 
+		debug('Pause processor:', this.params.type)
+		return this.queue.pause()
+	}
+	paused(){ 
+		return this.queue.paused()
+	}
+	resume(){ 
+		debug('Resume processor:', this.params.type)
+		return this.queue.resume()
+	}
+	idle(){ 
+		return this.queue.idle()
+	}
+	started(){ 
+		return this.queue.started()
+	}
+	length(){ 
+		return this.queue.length()
+	}
 }
 
 
