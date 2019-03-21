@@ -7,6 +7,7 @@ const request 			= require('request-promise')
 const async 			= require('async')
 const Processor 		= require('./processor.js')
 const Errand 			= require('./errand.js')
+const EventSource 		= require('eventsource')
 
 
 const SEVERITY_LEVELS = ['INFO', 'WARNING', 'ERROR']
@@ -16,6 +17,7 @@ module.exports = class Errands extends EventEmitter {
 
 	constructor( params ){
 		super()
+		this.es = null
 		this.params = params
 		this.setParams( params )
 		this.init()
@@ -31,6 +33,18 @@ module.exports = class Errands extends EventEmitter {
 
 	init(){
 		console.log('Errands Client Started')
+		this.es = new EventSource( `${this.serverURL}/v1/errands/notifications` )
+		this.es.onerror = function (err) {
+			if (err) {
+				if (err.status === 401 || err.status === 403) {
+					console.log('not authorized');
+				}
+			}
+		}
+		this.es.addEventListener('message', ( e ) => {
+			const event = JSON.parse( e.data )
+			this.emit( event.event, event.errand )
+		})
 	}
 
 

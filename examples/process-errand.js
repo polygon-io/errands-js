@@ -32,12 +32,12 @@ myErrands.process('extract', ( errand ) => {
 
 
 // Listen for failures:
-myErrands.on('fail', ( errand, err ) => {
+myErrands.on('failed', ( errand, err ) => {
 	console.log('Errand failed to process:', errand, err)
 })
 
 
 // Listen for completions:
-myErrands.on('complete', ( errand ) => {
+myErrands.on('completed', ( errand ) => {
 	console.log('Errand completed:', errand)
 })

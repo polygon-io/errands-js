@@ -25,10 +25,10 @@ module.exports = class Processor extends EventEmitter {
 			console.log('got task:', task)
 			let obj = new Errand( task, this )
 			this.params.func( obj ).then(() => {
-				this.params.parent.emit('complete', { errand: task })
+				this.params.parent.emit('processor-complete', { errand: task })
 				return obj.complete().then( callback )
 			}).catch(( err ) => {
-				this.params.parent.emit('fail', { errand: task, error: err })
+				this.params.parent.emit('processor-fail', { errand: task, error: err })
 				return obj.fail( err.toString() ).then( callback )
 			})
 		}, this.params.limit )
