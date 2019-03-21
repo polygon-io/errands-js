@@ -22,7 +22,6 @@ module.exports = class Processor extends EventEmitter {
 		console.log(`Processing: ${this.params.type}`)
 		// Create this processors queue:
 		this.queue = async.queue(( task, callback ) => {
-			console.log('got task:', task)
 			let obj = new Errand( task, this )
 			this.params.func( obj ).then(() => {
 				this.params.parent.emit('processor-complete', { errand: task })
@@ -40,7 +39,6 @@ module.exports = class Processor extends EventEmitter {
 	pollServer(){
 		const running = this.queue.running()
 		if( running < this.params.limit ){
-			console.log('Polling server')
 			return this.params.parent.requestErrand( this.params.type ).then(( errand ) => {
 				if( errand ) this.queue.push( errand )
 			}).catch(( err ) => {
