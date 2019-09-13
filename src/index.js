@@ -76,7 +76,7 @@ module.exports = class Errands extends EventEmitter {
 			method: 'GET',
 			json: true,
 		}).then(( res ) => {
-			return lodash.get( res, 'results' )
+			return lodash.get( res.data, 'results' )
 		})
 	}
 
@@ -88,7 +88,7 @@ module.exports = class Errands extends EventEmitter {
 			method: 'GET',
 			json: true,
 		}).then(( res ) => {
-			return lodash.get( res, 'results' )
+			return lodash.get( res.data, 'results' )
 		})
 	}
 
@@ -100,7 +100,7 @@ module.exports = class Errands extends EventEmitter {
 			method: 'POST',
 			json: true,
 		}).then(( res ) => {
-			return lodash.get( res, 'results', null )
+			return lodash.get( res.data, 'results', null )
 		})
 	}
 
@@ -114,13 +114,17 @@ module.exports = class Errands extends EventEmitter {
 			options: options || {},
 			data: data || {},
 		}
+		console.log('Adding Errand:', obj)
 		return request({
 			url: `${this.serverURL}/v1/errands/`,
 			method: 'POST',
 			json: true,
-			body: obj,
+			data: obj,
+			headers: {
+				'Content-Type': 'application/json',
+			}
 		}).then(( res ) => {
-			return lodash.get( res, 'results', null )
+			return lodash.get( res.data, 'results', null )
 		})
 	}
 
@@ -142,7 +146,7 @@ module.exports = class Errands extends EventEmitter {
 		return request({
 			url: `${this.serverURL}/v1/errand/${id}/completed`,
 			method: 'PUT',
-			body: {
+			data: {
 				results: results,
 			},
 			json: true,
@@ -158,7 +162,7 @@ module.exports = class Errands extends EventEmitter {
 			url: `${this.serverURL}/v1/errand/${id}/failed`,
 			method: 'PUT',
 			json: true,
-			body: { reason: reason, }
+			data: { reason: reason, }
 		})
 	}
 
@@ -171,7 +175,7 @@ module.exports = class Errands extends EventEmitter {
 			url: `${this.serverURL}/v1/errand/${id}`,
 			method: 'PUT',
 			json: true,
-			body: { progress: progress, }
+			data: { progress: progress, }
 		})
 	}
 
@@ -198,7 +202,7 @@ module.exports = class Errands extends EventEmitter {
 			url: `${this.serverURL}/v1/errand/${id}/log`,
 			method: 'POST',
 			json: true,
-			body: {
+			data: {
 				severity: severity,
 				message: message,
 			}
