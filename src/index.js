@@ -3,7 +3,7 @@
 const EventEmitter 		= require('eventemitter3')
 const lodash 			= require('lodash')
 const Promise 			= require('bluebird')
-const request 			= require('request-promise')
+const request 			= require('axios')
 const async 			= require('async')
 const Processor 		= require('./processor.js')
 const Errand 			= require('./errand.js')
@@ -29,12 +29,15 @@ module.exports = class Errands extends EventEmitter {
 		this.intervalTimer = params.intervalTimer || 1000
 		this.serverURL = params.serverURL || 'http://localhost:5555'
 		this.serverEvents = params.serverEvents || '*'
+		this.disableEvents = params.disableEvents || false
 		this.serverEvents = this.serverEvents.split(',')
 	}
 
 
 	init(){
 		debug("Errands Client Started")
+		// If we do not want events broadcasted to us...
+		if( this.disableEvents ) return
 		this.es = new EventSource( `${this.serverURL}/v1/errands/notifications?events=${this.serverEvents.join(',')}` )
 		this.es.onerror = ( err ) => {
 			if( err ){
