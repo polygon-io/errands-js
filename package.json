@@ -27,7 +27,7 @@
     "bluebird": "^3.5.3",
     "debug": "^4.1.1",
     "eventemitter3": "^3.1.0",
-    "eventsource": "^1.0.7",
+    "eventsource": "^2.0.2",
     "lodash": "^4.17.11",
     "moment": "^2.24.0",
     "request": "^2.88.0"
